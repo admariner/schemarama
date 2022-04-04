@@ -32,7 +32,7 @@ def find_files(directory, stop_elements, extension='.shex'):
         if stop_elements and element in stop_elements:
             continue
         path = os.path.join(directory, element)
-        if os.path.isfile(path) and (extension == None or extension == ext):
+        if os.path.isfile(path) and (extension is None or extension == ext):
             files.append(open(path).read())
         else:
             files += find_files(path, stop_elements, extension)
@@ -57,7 +57,11 @@ def to_shexj(input_fn, output_fn):
 
 
 def find_unknown():
-    defined_shapes = set([shex_file[:-5] for shex_file in os.listdir('shapes') + os.listdir('raw_shapes')])
+    defined_shapes = {
+        shex_file[:-5]
+        for shex_file in os.listdir('shapes') + os.listdir('raw_shapes')
+    }
+
     unknown = set()
     for shex_file in os.listdir('shapes'):
         shape = open(f'shapes/{shex_file}').read()
