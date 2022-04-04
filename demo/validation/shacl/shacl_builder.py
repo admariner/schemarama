@@ -24,7 +24,7 @@ def find_files(directory, stop_elements, extension='.shacl'):
         if stop_elements and element in stop_elements:
             continue
         path = os.path.join(directory, element)
-        if os.path.isfile(path) and (extension == None or extension == ext):
+        if os.path.isfile(path) and (extension is None or extension == ext):
             files.append(open(path).read())
         else:
             files += find_files(path, stop_elements, extension)
@@ -43,7 +43,7 @@ def pack():
 
 
 def find_unknown():
-    defined_shapes = set([shex_file[:-6] for shex_file in os.listdir('shapes')])
+    defined_shapes = {shex_file[:-6] for shex_file in os.listdir('shapes')}
     unknown = set()
     for shacl_file in os.listdir('shapes'):
         shape = open(f'shapes/{shacl_file}').read()
